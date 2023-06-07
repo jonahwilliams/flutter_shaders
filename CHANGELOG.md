@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Fix picture leak in `AnimatedSampler`.
+
 ## 0.1.1
 
 * Fix `AnimatedSampler` offset assertion to no longer trigger incorrectly when shader is disabled.
