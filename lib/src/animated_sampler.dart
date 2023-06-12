@@ -254,8 +254,8 @@ class _ShaderSamplerBuilderLayer extends OffsetLayer {
   }
 
   @override
-  void detach() {
+  void dispose() {
     _lastPicture?.dispose();
-    super.detach();
+    super.dispose();
   }
 }
