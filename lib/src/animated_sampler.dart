@@ -244,12 +244,12 @@ class _ShaderSamplerBuilderLayer extends OffsetLayer {
       (devicePixelRatio * bounds.width).ceil(),
       (devicePixelRatio * bounds.height).ceil(),
     );
+    scene.dispose();
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     try {
       callback(image, size, canvas);
     } finally {
-      scene.dispose();
       image.dispose();
     }
     final ui.Picture picture = pictureRecorder.endRecording();
