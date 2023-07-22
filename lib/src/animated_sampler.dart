@@ -219,17 +219,14 @@ class _ShaderSamplerBuilderLayer extends OffsetLayer {
     markNeedsAddToScene();
   }
 
-  ui.Image _buildChildScene(Rect bounds, double pixelRatio) {
+  ui.Scene _buildChildScene(double pixelRatio) {
     final ui.SceneBuilder builder = ui.SceneBuilder();
     final Matrix4 transform =
         Matrix4.diagonal3Values(pixelRatio, pixelRatio, 1);
     builder.pushTransform(transform.storage);
     addChildrenToScene(builder);
     builder.pop();
-    return builder.build().toImageSync(
-          (pixelRatio * bounds.width).ceil(),
-          (pixelRatio * bounds.height).ceil(),
-        );
+    return builder.build();
   }
 
   @override
@@ -241,15 +238,18 @@ class _ShaderSamplerBuilderLayer extends OffsetLayer {
   @override
   void addToScene(ui.SceneBuilder builder) {
     if (size.isEmpty) return;
-    final ui.Image image = _buildChildScene(
-      offset & size,
-      devicePixelRatio,
+    final bounds = Offset.zero & size;
+    final ui.Scene scene = _buildChildScene(devicePixelRatio);
+    final ui.Image image = scene.toImageSync(
+      (devicePixelRatio * bounds.width).ceil(),
+      (devicePixelRatio * bounds.height).ceil(),
     );
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
     try {
       callback(image, size, canvas);
     } finally {
+      scene.dispose();
       image.dispose();
     }
     final ui.Picture picture = pictureRecorder.endRecording();
