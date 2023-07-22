@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Ensure constructed ui.Scene objects are disposed after producing ui.Image.
+
 ## 0.1.2
 
 * Ensure constructed ui.Picture objects are disposed after usage.
